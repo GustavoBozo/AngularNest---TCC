@@ -3,8 +3,8 @@ import { PrismaService } from 'src/prisma.service';
 import { UserRegisterDTO } from './dto/user.dto';
 import { compare, hash } from 'bcrypt';
 import { loginDTO } from './dto/login.dto';
-import { log } from 'console';
 import { JwtService } from '@nestjs/jwt';
+
 
 @Injectable()
 export class UsuarioService {
@@ -12,6 +12,10 @@ export class UsuarioService {
         private jwt:JwtService
     ){}
 
+        
+    async getUser(){
+        return this.prisma.user.findMany()
+    }
 
     async create(data: UserRegisterDTO) {
         const user = await this.prisma.user.findFirst({
@@ -68,11 +72,15 @@ export class UsuarioService {
             expiresIn: '7d'
         })
 
+        
+        
 
         return {
             accesToken,
             refreshToken
         }
+
+        
 
     }
 }
