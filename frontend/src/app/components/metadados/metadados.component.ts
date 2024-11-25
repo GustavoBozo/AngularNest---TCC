@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { Router, RouterLink } from '@angular/router';
-import { Metadado } from '@prisma/client';
+import { MetadadoIn } from './equipe';
 
 
 @Component({
@@ -26,14 +26,14 @@ export class MetadadosComponent {
     this.loadMetadata();
   }
 
+  
 
+  metadados:  MetadadoIn[] | undefined;
 
-  metadados: Metadado[] | undefined;
-
-  deleteId: number | undefined;
+  deleteId: string | undefined;
 
   loadMetadata(){
-    this.http.get<Metadado[]>("http://localhost:3000/metadado/list").subscribe(dados => this.metadados = dados)
+    this.http.get<MetadadoIn[]>("http://localhost:3030/metadado/list").subscribe(dados => this.metadados = dados)
 
   }
 
@@ -45,7 +45,7 @@ export class MetadadosComponent {
     this.form.nativeElement.style.display = 'none';
   }
 
-  openModalDelete(id:number){
+  openModalDelete(id:string){
     this.delete.nativeElement.style.display = 'block';
     this.deleteId = id;
     console.log(this.deleteId);
@@ -56,8 +56,8 @@ export class MetadadosComponent {
   }
 
 
-  createMetadado(data: {description: string}){
-    return this.http.post<Metadado>("http://localhost:3000/metadado/create", data)
+  createMetadado(data: MetadadoIn){
+    return this.http.post<MetadadoIn>("http://localhost:3030/metadado/create", data)
     .subscribe(metadado => {
       console.log("Metadado Criado", metadado)
       location.reload()
@@ -66,7 +66,7 @@ export class MetadadosComponent {
 
 
   deleteMetadado(){
-    return this.http.post<any>(`http://localhost:3000/metadado/delete/${this.deleteId}`, {})
+    return this.http.post<any>(`http://localhost:3030/metadado/delete/${this.deleteId}`, {})
     .subscribe(deletado => {
       location.reload()
     })

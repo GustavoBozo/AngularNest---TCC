@@ -73,12 +73,12 @@ model DocumentMetadata {
   @@id([documentId, metadataId])
 }
 
-// Modelo de Equipe
+
 model Team {
   id          String   @id @default(uuid())
   name        String
   
-  // Relação muitos para muitos com usuários
+  
   members     TeamMembership[]
   
  

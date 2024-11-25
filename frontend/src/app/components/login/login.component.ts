@@ -16,7 +16,7 @@ export class LoginComponent {
 
 
   async login(data: {email: string, password: string}){
-    const res = await this.http.post<LoginDto>("http://localhost:3000/usuario/login", data)
+    const res = await this.http.post<LoginDto>("http://localhost:3030/usuario/login", data)
     .subscribe(usuario => {
       console.log("Logado", usuario)
     })

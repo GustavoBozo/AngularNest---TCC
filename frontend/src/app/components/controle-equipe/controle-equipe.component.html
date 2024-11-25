@@ -5,3 +5,50 @@
       <span style="font-size: 15px;">Sem Equipe</span>
   </div>
 </div>
+
+<div class="container">
+  <div class="novo">
+    <button class="btn-cadastrar" (click)="openModalEquipe()">Iniciar Nova Equipe</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nome do Metadados</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody >
+      <tr *ngFor="let equipe of equipes">
+        <td>{{ equipe.name }}</td>
+
+        <td>
+
+          <a >Adicionar Membros</a>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
+</div>
+
+<div id="modalCadastro" class="modal" #modalEquipe>
+  <div class="modal-content">
+    <i class="fa-solid fa-xmark" (click)="closeModalEquipe()"></i>
+    <h2>Cadastrar Equipe</h2>
+    <form id="formDocumento" #equipeForm="ngForm" (ngSubmit)="createEquipe(equipeForm.value)">
+      <div class="form-group">
+        <label for="description">Nome da Equipe</label>
+        <input type="text" name="name" required ngModel>
+      </div>
+
+
+
+      <div class="modal-buttons">
+        <button type="button" class="btn-cancelar" (click)="closeModalEquipe()">Cancelar</button>
+        <button type="submit" class="btn-salvar">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>

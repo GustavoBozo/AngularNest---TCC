@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms'
-import { Usuario } from '@prisma/client'
+import {  Prisma } from '@prisma/client'
 
 @Component({
   selector: 'app-register',
@@ -16,7 +16,7 @@ export class RegisterComponent {
 
 
   createUser(data: {name: string, email: string, password: string}){
-    return this.http.post<Usuario>("http://localhost:3000/usuario/create", data)
+    return this.http.post("http://localhost:3000/usuario/create", data)
     .subscribe(usuario => {
       console.log("Usuario Criado", usuario)
     })
