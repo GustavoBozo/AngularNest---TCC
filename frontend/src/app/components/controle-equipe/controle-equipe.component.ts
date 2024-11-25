@@ -4,7 +4,7 @@ import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { EquipeIn } from './dto/equipe.dto';
+import { EquipeIn, UserTeamIn } from './dto/equipe.dto';
 
 @Component({
   selector: 'app-controle-equipe',
@@ -16,10 +16,13 @@ export class ControleEquipeComponent {
   
 
   @ViewChild('modalEquipe') form1!: ElementRef;
+  @ViewChild('modalEquipeUsuario') userEquipe!: ElementRef;
 
   http = inject(HttpClient);
   router = inject(Router);
 
+
+  teamId: string | undefined;
 
 
   equipes: EquipeIn[] | undefined
@@ -28,6 +31,7 @@ export class ControleEquipeComponent {
     this.loadEquipes();
   }
 
+  
 
   openModalEquipe(){
     this.form1.nativeElement.style.display = 'block';
@@ -35,6 +39,15 @@ export class ControleEquipeComponent {
 
   closeModalEquipe(){
     this.form1.nativeElement.style.display = 'none';
+  }
+
+  adicionarMembros(id: string){
+    this.userEquipe.nativeElement.style.display = 'block';
+    this.teamId = id;
+  }
+
+  closeModalEquipeUsuario(){
+    this.userEquipe.nativeElement.style.display = 'none';
   }
 
 
@@ -46,6 +59,12 @@ export class ControleEquipeComponent {
     })
   }
 
+  createEquipeUsuario(data: {name: string, email: string, teamId: string}){
+    return this.http.post<UserTeamIn>("http://localhost:3030/equipe/addEquipe", data)
+    .subscribe(equipeUser => {
+      console.log("Adicionado com sucesso", equipeUser)
+    })
+  }
 
 
   loadEquipes(){

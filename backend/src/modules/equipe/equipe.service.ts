@@ -19,5 +19,14 @@ export class EquipeService {
         return await this.prisma.team.findMany();
     }
 
+    async addMember(userId: string, teamId: string){
+        return this.prisma.teamMembership.create({
+            data: {
+                userId: userId,
+                teamId: teamId
+            }
+        });
+    }
+
     
 }

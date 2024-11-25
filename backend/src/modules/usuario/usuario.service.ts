@@ -8,13 +8,23 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsuarioService {
-    constructor(private prisma:PrismaService, 
+    constructor(private prisma:PrismaService,
+         
         private jwt:JwtService
     ){}
 
         
     async getUser(){
         return this.prisma.user.findMany()
+        
+    }
+
+    async getUserEmail(email: string){
+        return this.prisma.user.findUnique({
+            where: {
+                email: email
+            }
+        })
         
     }
 

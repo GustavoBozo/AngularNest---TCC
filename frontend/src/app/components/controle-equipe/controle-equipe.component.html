@@ -24,7 +24,7 @@
 
         <td>
 
-          <a >Adicionar Membros</a>
+          <a (click)="adicionarMembros(equipe.id)">Adicionar Membros</a>
         </td>
       </tr>
 
@@ -47,6 +47,31 @@
 
       <div class="modal-buttons">
         <button type="button" class="btn-cancelar" (click)="closeModalEquipe()">Cancelar</button>
+        <button type="submit" class="btn-salvar">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+<div id="modalCadastro" class="modal" #modalEquipeUsuario>
+  <div class="modal-content">
+    <i class="fa-solid fa-xmark" (click)="closeModalEquipeUsuario()"></i>
+    <h2>Cadastrar Equipe</h2>
+    <form id="formDocumento" #equipeFormUsuario="ngForm" (ngSubmit)="createEquipeUsuario(equipeFormUsuario.value)">
+      <div class="form-group">
+        <label for="description">Nome do Usuário</label>
+        <input type="text" name="name" required ngModel>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Email do Usuário</label>
+        <input type="text" name="email" required ngModel>
+      </div>
+
+      <div class="modal-buttons">
+        <button type="button" class="btn-cancelar" (click)="closeModalEquipeUsuario()">Cancelar</button>
         <button type="submit" class="btn-salvar">Salvar</button>
       </div>
     </form>
