@@ -1,0 +1,75 @@
+<div class="header">
+  <img src="/Logoo1.png" style="width: 10rem; height: 5rem;">
+  <div class="cargo">
+      <span style="font-size: 15px;">Gustavo Henrique</span>
+      <span style="font-size: 15px;">Sem Equipe</span>
+  </div>
+</div>
+
+<div class="container">
+    <div class="novo">
+      <button class="btn-cadastrar" (click)="openModal()">+ Cadastrar Novo</button>
+    </div>
+
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nome do Metadados</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody >
+      <tr *ngFor="let meta of metadados">
+        <td>{{ meta.description }}</td>
+
+        <td>
+
+          <a (click)="openModalDelete(meta.id)">Excluir</a>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<div id="modalCadastro" class="modal" #modalMetadado>
+  <div class="modal-content">
+    <i class="fa-solid fa-xmark" (click)="closeModal()"></i>
+    <h2>Cadastrar Novo Documento</h2>
+    <form id="formDocumento" #registerForm="ngForm" (ngSubmit)="createMetadado(registerForm.value)">
+      <div class="form-group">
+        <label for="description">Nome do Documento</label>
+        <input type="text" name="description" required ngModel>
+      </div>
+
+
+
+      <div class="modal-buttons">
+        <button type="button" class="btn-cancelar" (click)="closeModal()">Cancelar</button>
+        <button type="submit" class="btn-salvar">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="modalDelete" class="modal" #modalMetadadoDelete>
+  <div class="modal-content">
+    <i class="fa-solid fa-xmark" (click)="closeModalDelete()"></i>
+    <h2>Deletar Metadado</h2>
+    <form id="formDocumento" #deleteForm="ngForm" (ngSubmit)="deleteMetadado()">
+      <div class="form-group">
+
+        <input type="text" name="description" required ngModel>
+      </div>
+
+
+
+      <div class="modal-buttons">
+        <button type="button" class="btn-cancelar" (click)="closeModalDelete()">Cancelar</button>
+        <button type="submit" class="btn-salvar">Excluir</button>
+      </div>
+    </form>
+  </div>
+</div>
+

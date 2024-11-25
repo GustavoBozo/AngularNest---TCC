@@ -15,6 +15,7 @@ export class UsuarioService {
         
     async getUser(){
         return this.prisma.user.findMany()
+        
     }
 
     async create(data: UserRegisterDTO) {
