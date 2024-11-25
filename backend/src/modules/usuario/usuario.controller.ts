@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { User } from '@prisma/client'
 import { UserRegisterDTO } from './dto/user.dto';
@@ -16,5 +16,10 @@ export class UsuarioController {
   @Post('login')
   login(@Body() body: loginDTO):Promise<any>{
       return this.usuarioService.login(body)
+  }
+
+  @Get('list')
+  getAll():Promise<any>{
+    return this.usuarioService.getUser()
   }
 }
