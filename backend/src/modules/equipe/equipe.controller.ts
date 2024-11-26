@@ -23,6 +23,11 @@ export class EquipeController {
     return this.equipeService.getEquipes()
   }
 
+  @Get('listEquipe/:userId')
+  getEquipes1(@Param('userId') userId: string){
+    return this.equipeService.getEquipesMe(userId)
+  }
+
   @Post('addEquipe/:teamId')
   async addEquipe(@Body() data: UserRegisterDTO, @Param('teamId') teamId: string ){
     

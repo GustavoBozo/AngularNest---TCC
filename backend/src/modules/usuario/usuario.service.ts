@@ -5,6 +5,8 @@ import { compare, hash } from 'bcrypt';
 import { loginDTO } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { CookieService } from 'ngx-cookie-service';
+import { EquipeService } from '../equipe/equipe.service';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 
 
 @Injectable()
@@ -12,6 +14,7 @@ export class UsuarioService {
     constructor(private prisma:PrismaService,
          
         private jwt:JwtService,
+        private equipe:EquipeService
     ){}
 
         
@@ -50,22 +53,23 @@ export class UsuarioService {
     } 
 
     nomeUser: string | undefined;
-    equipeUser: string | undefined;
+    idUser: string | undefined;
 
 
-    async findByUser(params : {userId: string, teamId: string}) {
-        const equipe = await this.prisma.teamMembership.findUnique({
+    async findByUser(userId: string) {
+        const equipe = await this.prisma.teamMembership.findMany({
             where: { 
-                userId_teamId: params
+                userId,
                 
             },
             include: {
                 team: true,
+                user: true
             }
           
         });
         
-        this.equipeUser = equipe.team.name.toString()
+        return equipe
 
     }
 
@@ -94,6 +98,7 @@ export class UsuarioService {
         }
         
         this.nomeUser = user.name.toString()
+        this.idUser = user.id.toString()
 
         const accesToken = await this.jwt.signAsync(payload, {
             secret: process.env.ACCES_TOKEN_KEY,
@@ -119,10 +124,10 @@ export class UsuarioService {
     }
 
     async getNomeCookie(){
-        return this.nomeUser
+        return JSON.stringify(this.nomeUser)
     }
 
-    async getEquipeCookie(){
-        return this.equipeUser
+    async getIdCookie(){
+        return JSON.stringify(this.idUser)
     }
 }

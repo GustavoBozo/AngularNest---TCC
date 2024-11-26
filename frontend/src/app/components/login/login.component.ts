@@ -20,6 +20,7 @@ export class LoginComponent {
     const res = await this.http.post<LoginDto>("http://localhost:3030/usuario/login", data)
     .subscribe(usuario => {
       console.log("Logado", usuario)
+      
     })
 
     

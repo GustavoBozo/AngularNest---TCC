@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { EquipeDTO } from './dto/equipe.dto';
+import { EquipeDTO, EquipeDTO2 } from './dto/equipe.dto';
+import { TeamMembership } from '@prisma/client';
 
 @Injectable()
 export class EquipeService {
@@ -17,6 +18,20 @@ export class EquipeService {
 
     async getEquipes(){
         return await this.prisma.team.findMany();
+    }
+
+    async getEquipesMe(userId: string): Promise<EquipeDTO2[]> {
+        const a = this.prisma.teamMembership.findMany({
+            where: {
+                userId
+            },
+            include: {
+                team: true,
+            }
+        });
+
+        return a;
+        
     }
 
     async addMember(userId: string, teamId: string){

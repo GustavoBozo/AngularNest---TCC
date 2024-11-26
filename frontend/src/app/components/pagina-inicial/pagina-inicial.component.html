@@ -7,7 +7,7 @@
   </div>
 </div>
 
-<!-- Barra lateral -->
+
 <div class="sidebar">
 
   <div class="top">
@@ -45,9 +45,9 @@
   </div>
 </div>
 
-<!-- Conteúdo principal -->
-<div class="main-content">
 
+<div class="main-content">
+    
   <div class="metadata-form">
       <h3>Contas Pagas > Documentos</h3>
       <div class="content">
@@ -101,3 +101,25 @@
 
   </div>
 </div>
+
+
+
+<div id="modalCadastro" class="modal" #modalDocumento>
+    <div class="modal-content">
+      <i class="fa-solid fa-xmark" (click)="closeModalDocumento()"></i>
+      <h2>Cadastrar Equipe</h2>
+      <div id="formDocumento" >
+        <div class="form-group">
+            <input type="file" (change)="onFileSelected($event)">
+        </div>
+  
+  
+  
+        <div class="modal-buttons">
+          <button type="button" class="btn-cancelar" (click)="closeModalDocumento()">Cancelar</button>
+          <button type="submit" class="btn-salvar" (click)="uploadDocumento()">Salvar</button>
+        </div>
+      </div>
+    </div>
+  
+  </div>

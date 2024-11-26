@@ -28,8 +28,8 @@ export class UsuarioController {
     return this.usuarioService.getNomeCookie()
   }
 
-  @Get("nomeEquipe")
+  @Get("idUser")
   getEquipeUser(){
-    return this.usuarioService.getEquipeCookie()
+    return this.usuarioService.getIdCookie()
   }
 }
