@@ -4,13 +4,15 @@ import { UserRegisterDTO } from './dto/user.dto';
 import { compare, hash } from 'bcrypt';
 import { loginDTO } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Injectable()
 export class UsuarioService {
     constructor(private prisma:PrismaService,
          
-        private jwt:JwtService
+        private jwt:JwtService,
+        private cookieService : CookieService,
     ){}
 
         
@@ -48,6 +50,22 @@ export class UsuarioService {
         return res
     } 
 
+    async findByUser(params : {userId: string, teamId: string}) {
+        const equipe = await this.prisma.teamMembership.findUnique({
+            where: { 
+                userId_teamId: params
+                
+            },
+            include: {
+                team: true,
+            }
+          
+        });
+        
+        this.cookieService.set('nomeEquipe', equipe.team.name);
+
+    }
+
     async login(login: loginDTO):Promise<any> {
         const user = await this.prisma.user.findUnique({
             where: {
@@ -71,6 +89,8 @@ export class UsuarioService {
             nome: user.name,
             email: user.email,
         }
+        
+        this.cookieService.set('userName', payload.nome);
 
         const accesToken = await this.jwt.signAsync(payload, {
             secret: process.env.ACCES_TOKEN_KEY,

@@ -9,7 +9,7 @@ export class EquipeService {
 
     async create(data: EquipeDTO){
         const res = await this.prisma.team.create({
-            data: {...data}
+            data: data
         })
 
         return res;

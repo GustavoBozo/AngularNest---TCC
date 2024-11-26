@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { EquipeService } from './equipe.service';
 import { EquipeDTO } from './dto/equipe.dto';
 import { Team } from '@prisma/client';
 import { UsuarioService } from '../usuario/usuario.service';
+import { UserRegisterDTO } from '../usuario/dto/user.dto';
 
 @Controller('equipe')
 export class EquipeController {
@@ -22,14 +23,16 @@ export class EquipeController {
     return this.equipeService.getEquipes()
   }
 
-  @Post('addEquipe')
-  async addEquipe(@Body() email: string, name:string, teamId: string){
+  @Post('addEquipe/:teamId')
+  async addEquipe(@Body() data: UserRegisterDTO, @Param('teamId') teamId: string ){
     
-    const user = await this.userService.getUserEmail(email.toString())
+    const user = await this.userService.getUserEmail(data.email.toString())
     
 
     if(!user){
-      await this.userService.create({email: email, name: name, password: `${name}2024`});
+      data.password = "2024";
+      const newUser = await this.userService.create(data);
+      return this.equipeService.addMember(newUser.id, teamId)
     }
 
     

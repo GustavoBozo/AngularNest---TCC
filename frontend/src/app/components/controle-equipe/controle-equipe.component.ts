@@ -56,13 +56,13 @@ export class ControleEquipeComponent {
     .subscribe(equipe => {
       console.log("Equipe Criada", equipe)
       location.reload()
-      
+
     })
   }
 
-  createEquipeUsuario(data: {name: string, email: string, teamId?: string}){
-    data.teamId = this.teamId?.toString();
-    return this.http.post<UserTeamIn>("http://localhost:3030/equipe/addEquipe", data)
+  createEquipeUsuario(data: {name: string, email: string}){
+
+    return this.http.post<UserTeamIn>(`http://localhost:3030/equipe/addEquipe/${this.teamId}`, data)
     .subscribe(equipeUser => {
       console.log("Adicionado com sucesso", equipeUser)
     })

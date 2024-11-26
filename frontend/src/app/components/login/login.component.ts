@@ -15,12 +15,14 @@ export class LoginComponent {
   router = inject(Router)
 
 
+
   async login(data: {email: string, password: string}){
     const res = await this.http.post<LoginDto>("http://localhost:3030/usuario/login", data)
     .subscribe(usuario => {
       console.log("Logado", usuario)
     })
 
+    document.cookie = 
     if(res){
       this.router.navigate(['/home'])
     }
