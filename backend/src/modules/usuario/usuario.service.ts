@@ -12,7 +12,6 @@ export class UsuarioService {
     constructor(private prisma:PrismaService,
          
         private jwt:JwtService,
-        private cookieService : CookieService,
     ){}
 
         
@@ -50,6 +49,10 @@ export class UsuarioService {
         return res
     } 
 
+    nomeUser: string | undefined;
+    equipeUser: string | undefined;
+
+
     async findByUser(params : {userId: string, teamId: string}) {
         const equipe = await this.prisma.teamMembership.findUnique({
             where: { 
@@ -62,7 +65,7 @@ export class UsuarioService {
           
         });
         
-        this.cookieService.set('nomeEquipe', equipe.team.name.toString());
+        this.equipeUser = equipe.team.name.toString()
 
     }
 
@@ -90,7 +93,7 @@ export class UsuarioService {
             email: user.email,
         }
         
-        this.cookieService.set('userName', payload.nome.toString());
+        this.nomeUser = user.name.toString()
 
         const accesToken = await this.jwt.signAsync(payload, {
             secret: process.env.ACCES_TOKEN_KEY,
@@ -116,10 +119,10 @@ export class UsuarioService {
     }
 
     async getNomeCookie(){
-        return this.cookieService.get("userName")
+        return JSON.stringify(this.nomeUser)
     }
 
     async getEquipeCookie(){
-        return this.cookieService.get("nomeEquipe")
+        return JSON.stringify(this.equipeUser)
     }
 }

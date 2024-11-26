@@ -1,7 +1,8 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-pagina-inicial',
@@ -27,8 +28,11 @@ export class PaginaInicialComponent implements OnInit {
     
     const res = await this.http.get("http://localhost:3030/usuario/nomeUser")
     .subscribe(nome => {
-      this.nomeUser = nome.toString();
+      this.nomeUser = JSON.stringify(nome).replace(/"/g, '');
     })
+
+    
+    
   }
 
 
@@ -39,11 +43,11 @@ export class PaginaInicialComponent implements OnInit {
         this.nomeEquipe = "Sem Equipe"
       } else {
 
-        this.nomeEquipe = nome.toString();
+        this.nomeEquipe = JSON.stringify(nome).replace(/"/g, '');
       }
     })
 
-
+    return res;
   }
 
 
