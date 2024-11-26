@@ -1,8 +1,9 @@
 export interface EquipeIn {
-    name: string;
+  id: string;
+  name: string;
 }
 
 export interface UserTeamIn {
-    name: string;
-    email: string;
+  name: string;
+  email: string;
 }

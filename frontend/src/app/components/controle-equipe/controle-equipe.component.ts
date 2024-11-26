@@ -13,7 +13,7 @@ import { EquipeIn, UserTeamIn } from './dto/equipe.dto';
   styleUrl: './controle-equipe.component.css'
 })
 export class ControleEquipeComponent {
-  
+
 
   @ViewChild('modalEquipe') form1!: ElementRef;
   @ViewChild('modalEquipeUsuario') userEquipe!: ElementRef;
@@ -31,7 +31,7 @@ export class ControleEquipeComponent {
     this.loadEquipes();
   }
 
-  
+
 
   openModalEquipe(){
     this.form1.nativeElement.style.display = 'block';
@@ -56,10 +56,12 @@ export class ControleEquipeComponent {
     .subscribe(equipe => {
       console.log("Equipe Criada", equipe)
       location.reload()
+      
     })
   }
 
-  createEquipeUsuario(data: {name: string, email: string, teamId: string}){
+  createEquipeUsuario(data: {name: string, email: string, teamId?: string}){
+    data.teamId = this.teamId?.toString();
     return this.http.post<UserTeamIn>("http://localhost:3030/equipe/addEquipe", data)
     .subscribe(equipeUser => {
       console.log("Adicionado com sucesso", equipeUser)

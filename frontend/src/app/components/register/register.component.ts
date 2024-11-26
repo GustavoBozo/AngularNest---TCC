@@ -16,13 +16,13 @@ export class RegisterComponent {
 
 
   createUser(data: {name: string, email: string, password: string}){
-    return this.http.post("http://localhost:3000/usuario/create", data)
+    return this.http.post("http://localhost:3030/usuario/create", data)
     .subscribe(usuario => {
       console.log("Usuario Criado", usuario)
     })
   }
 
 
-  
+
 
 }
