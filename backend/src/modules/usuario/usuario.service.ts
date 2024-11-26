@@ -119,10 +119,10 @@ export class UsuarioService {
     }
 
     async getNomeCookie(){
-        return JSON.stringify(this.nomeUser)
+        return this.nomeUser
     }
 
     async getEquipeCookie(){
-        return JSON.stringify(this.equipeUser)
+        return this.equipeUser
     }
 }
