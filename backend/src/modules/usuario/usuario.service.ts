@@ -36,7 +36,7 @@ export class UsuarioService {
         })
 
         if(user){
-            throw new HttpException({message: 'Esse memail já esta cadastrado'}, HttpStatus.BAD_REQUEST) 
+            throw new HttpException({message: 'Esse email já esta cadastrado'}, HttpStatus.BAD_REQUEST) 
         }
 
         const hasPassword = await hash(data.password, 8)
