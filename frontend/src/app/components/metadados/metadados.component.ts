@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -14,7 +14,7 @@ import { MetadadoIn } from './equipe';
   templateUrl: './metadados.component.html',
   styleUrl: './metadados.component.css'
 })
-export class MetadadosComponent {
+export class MetadadosComponent implements OnInit {
 
   @ViewChild('modalMetadado') form!: ElementRef;
   @ViewChild('modalMetadadoDelete') delete!: ElementRef;
@@ -26,7 +26,7 @@ export class MetadadosComponent {
     this.loadMetadata();
   }
 
-  
+
 
   metadados:  MetadadoIn[] | undefined;
 

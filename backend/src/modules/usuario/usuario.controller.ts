@@ -22,4 +22,14 @@ export class UsuarioController {
   getAll():Promise<any>{
     return this.usuarioService.getUser()
   }
+
+  @Get("nomeUser")
+  getNomeUser(){
+    return this.usuarioService.getNomeCookie()
+  }
+
+  @Get("nomeEquipe")
+  getEquipeUser(){
+    return this.usuarioService.getEquipeCookie()
+  }
 }

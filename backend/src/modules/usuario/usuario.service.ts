@@ -62,7 +62,7 @@ export class UsuarioService {
           
         });
         
-        this.cookieService.set('nomeEquipe', equipe.team.name);
+        this.cookieService.set('nomeEquipe', equipe.team.name.toString());
 
     }
 
@@ -90,7 +90,7 @@ export class UsuarioService {
             email: user.email,
         }
         
-        this.cookieService.set('userName', payload.nome);
+        this.cookieService.set('userName', payload.nome.toString());
 
         const accesToken = await this.jwt.signAsync(payload, {
             secret: process.env.ACCES_TOKEN_KEY,
@@ -113,5 +113,13 @@ export class UsuarioService {
 
         
 
+    }
+
+    async getNomeCookie(){
+        return this.cookieService.get("userName")
+    }
+
+    async getEquipeCookie(){
+        return this.cookieService.get("nomeEquipe")
     }
 }

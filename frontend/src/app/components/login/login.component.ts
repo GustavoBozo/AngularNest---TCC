@@ -22,7 +22,7 @@ export class LoginComponent {
       console.log("Logado", usuario)
     })
 
-    document.cookie = 
+    
     if(res){
       this.router.navigate(['/home'])
     }
