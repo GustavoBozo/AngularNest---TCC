@@ -97,13 +97,15 @@ export class UsuarioService {
             email: user.email,
         }
         
-        this.nomeUser = user.name.toString()
-        this.idUser = user.id.toString()
-
+        
+        
+        this.nomeUser = user.name
+        this.idUser = user.id
+        
         const accesToken = await this.jwt.signAsync(payload, {
             secret: process.env.ACCES_TOKEN_KEY,
             expiresIn: '1h'
-        })
+        })  
 
 
         const refreshToken = await this.jwt.signAsync(payload, {
@@ -116,7 +118,10 @@ export class UsuarioService {
 
         return {
             accesToken,
-            refreshToken
+            refreshToken,
+            user: {
+                "nome": this.nomeUser
+            }
         }
 
         
