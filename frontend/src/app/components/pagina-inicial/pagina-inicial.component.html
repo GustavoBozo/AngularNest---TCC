@@ -1,12 +1,5 @@
 <!-- Cabeçalho -->
-<div class="header">
-  <img src="/Logoo1.png" style="width: 10rem; height: 5rem;">
-  <div class="cargo">
-      <span style="font-size: 15px;">{{ nomeUser }}</span>
-      <span style="font-size: 15px;">{{ nomeEquipe }}</span>
-  </div>
-</div>
-
+<app-menu [recebeNome]="nomeUser" [recebeEquipe]="nomeEquipe"></app-menu>
 
 <div class="sidebar">
 
@@ -50,6 +43,7 @@
     
   <div class="metadata-form">
       <h3>Contas Pagas > Documentos</h3>
+      <button class="btn-cadastrarDocumento" (click)="openModalDocumento()">+ Novo Documento</button>
       <div class="content">
           <div class="nomeArquivo">
               <span class="titulo" style="font-size: 25px; color: blue;">Arquivo</span>
@@ -99,6 +93,7 @@
 
 
 
+      
   </div>
 </div>
 
@@ -107,7 +102,7 @@
 <div id="modalCadastro" class="modal" #modalDocumento>
     <div class="modal-content">
       <i class="fa-solid fa-xmark" (click)="closeModalDocumento()"></i>
-      <h2>Cadastrar Equipe</h2>
+      <h2>Upload de Arquivo</h2>
       <div id="formDocumento" >
         <div class="form-group">
             <input type="file" (change)="onFileSelected($event)">
@@ -122,4 +117,5 @@
       </div>
     </div>
   
-  </div>
+</div>
+

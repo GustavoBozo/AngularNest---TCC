@@ -1,14 +1,4 @@
-.header {
-  background-color: #1d3149;
-  color: #fff;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.header h1 {
-  font-size: 1.2em;
-}
+
 
 
 table {
@@ -140,11 +130,6 @@ table {
   color: #333;
 }
 
-.cargo {
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-}
 
 .addSecao {
   display: flex;
@@ -268,3 +253,10 @@ table {
   cursor: pointer;
 }
 
+.btn-cadastrarDocumento {
+  background: none;
+  border: 1px solid black;
+  padding: 8px;
+  border-radius: 10px;
+  background-color: aquamarine;
+}

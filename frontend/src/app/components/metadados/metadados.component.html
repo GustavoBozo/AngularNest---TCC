@@ -1,9 +1,6 @@
 <div class="header">
   <img src="/Logoo1.png" style="width: 10rem; height: 5rem;">
-  <div class="cargo">
-      <span style="font-size: 15px;">Gustavo Henrique</span>
-      <span style="font-size: 15px;">Sem Equipe</span>
-  </div>
+  
 </div>
 
 <div class="container">
@@ -39,7 +36,7 @@
     <h2>Cadastrar Novo Documento</h2>
     <form id="formDocumento" #registerForm="ngForm" (ngSubmit)="createMetadado(registerForm.value)">
       <div class="form-group">
-        <label for="description">Nome do Documento</label>
+        <label for="description">Nome do Metadado</label>
         <input type="text" name="description" required ngModel>
       </div>
 
