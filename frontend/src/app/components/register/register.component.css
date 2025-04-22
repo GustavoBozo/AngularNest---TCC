@@ -14,6 +14,23 @@
   background-color: #6f90f2;
 }
 
+.voltar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.voltar label {
+  font-size: 2rem;
+  padding-bottom: 10px;
+  cursor: pointer;
+  padding-right: 4rem;
+}
+
+.voltar h1 {
+  margin-bottom: 0;
+}
+
 .login-container {
 
   background: rgba(255, 255, 255, 0.9);

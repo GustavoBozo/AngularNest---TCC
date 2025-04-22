@@ -72,5 +72,10 @@ export class MetadadosComponent implements OnInit {
     })
   }
 
+  voltar(){
+    history.back()
+  }
+
+
 
 }

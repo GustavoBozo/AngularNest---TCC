@@ -17,3 +17,10 @@ export interface EquipeDTO2 {
   };
 
 }
+
+export interface UserIn {
+  id: string;
+  name: string;
+  
+  
+}

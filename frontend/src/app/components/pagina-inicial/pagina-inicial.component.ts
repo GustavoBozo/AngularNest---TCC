@@ -7,6 +7,7 @@ import { EquipeDTO2 } from '../controle-equipe/dto/equipe.dto';
 import { FormsModule } from '@angular/forms';
 import { MenuComponent } from '../menu/menu.component';
 import { UserService } from '../../auth.service';
+import { MetadadoIn } from '../metadados/equipe';
 
 
 @Component({
@@ -52,7 +53,7 @@ export class PaginaInicialComponent implements OnInit {
     
     await this.nomeEquipeCoki();
     await this.teste();
-    
+    await this.loadMetadados();
     
   }
   
@@ -72,6 +73,13 @@ export class PaginaInicialComponent implements OnInit {
     }
     
     
+  }
+
+
+  metadadosFile: MetadadoIn[] | undefined
+
+  async loadMetadados(){
+    this.http.get<MetadadoIn[]>("http://localhost:3030/metadado/list").subscribe(dados => this.metadadosFile = dados)
   }
 
   

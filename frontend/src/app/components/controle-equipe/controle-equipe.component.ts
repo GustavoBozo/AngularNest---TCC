@@ -4,7 +4,7 @@ import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { EquipeIn, UserTeamIn } from './dto/equipe.dto';
+import { EquipeIn, UserIn, UserTeamIn } from './dto/equipe.dto';
 
 @Component({
   selector: 'app-controle-equipe',
@@ -26,9 +26,11 @@ export class ControleEquipeComponent {
 
 
   equipes: EquipeIn[] | undefined
+  usuarios: UserIn[] | undefined
 
   ngOnInit(){
     this.loadEquipes();
+    this.loadMetadata();
   }
 
 
@@ -68,8 +70,19 @@ export class ControleEquipeComponent {
     })
   }
 
+  loadMetadata(){
+    
+    this.http.get<UserIn[]>("http://localhost:3030/usuario/userList").subscribe(dados => this.usuarios = dados)
+  
+  }
+
 
   loadEquipes(){
     this.http.get<EquipeIn[]>("http://localhost:3030/equipe/list").subscribe(dados => this.equipes = dados)
   }
+
+  voltar(){
+    history.back()
+  }
+
 }

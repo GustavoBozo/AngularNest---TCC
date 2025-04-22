@@ -135,4 +135,15 @@ export class UsuarioService {
     async getIdCookie(){
         return JSON.stringify(this.idUser)
     }
+
+    async lisUser(){
+        const res = await this.prisma.user.findMany({
+            select: {
+                name: true,
+                id: true
+            }
+        })
+
+        return res
+    }
 }

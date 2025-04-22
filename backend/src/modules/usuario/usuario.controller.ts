@@ -32,4 +32,9 @@ export class UsuarioController {
   getEquipeUser(){
     return this.usuarioService.getIdCookie()
   }
+
+  @Get('userList')
+  getUsers(){
+    return this.usuarioService.lisUser()
+  }
 }

@@ -107,7 +107,15 @@
         <div class="form-group">
             <input type="file" (change)="onFileSelected($event)">
         </div>
-  
+
+        <div class="form-group">
+            <label for="meta">Metadados Cadastrados</label>
+            <select name="meta" id="meta">
+                <option [value]="meta.id" *ngFor="let meta of metadadosFile">
+                    {{meta.description}}
+                </option>
+            </select>
+        </div>
   
   
         <div class="modal-buttons">

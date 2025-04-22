@@ -6,6 +6,7 @@
 <div class="container">
   <div class="novo">
     <button class="btn-cadastrar" (click)="openModalEquipe()">Iniciar Nova Equipe</button>
+    <button class="btn-voltar" (click)="voltar()">Voltar</button>
   </div>
 
   <table>
@@ -59,6 +60,14 @@
     <i class="fa-solid fa-xmark" (click)="closeModalEquipeUsuario()"></i>
     <h2>Cadastrar Equipe</h2>
     <form id="formDocumento" #equipeFormUsuario="ngForm" (ngSubmit)="createEquipeUsuario(equipeFormUsuario.value)">
+      <div class="form-group">
+        <label for="description">Usuários Cadastrados</label>
+        <select name="user" id="user">
+          <option [value]="user.id" *ngFor="let user of usuarios">
+            {{user.name}}
+          </option>
+        </select>
+      </div>
       <div class="form-group">
         <label for="description">Nome do Usuário</label>
         <input type="text" name="name" required ngModel>

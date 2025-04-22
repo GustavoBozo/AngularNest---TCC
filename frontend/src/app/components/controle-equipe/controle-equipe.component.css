@@ -6,6 +6,7 @@
   justify-content: space-between;
   align-items: center;
 }
+
 .header h1 {
   font-size: 1.2em;
 }
@@ -20,6 +21,21 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+
+.btn-voltar {
+  background-color: #284cff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.novo {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }
 
 .btn-cadastrar {
