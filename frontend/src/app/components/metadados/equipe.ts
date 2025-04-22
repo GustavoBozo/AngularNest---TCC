@@ -1,6 +1,6 @@
 export interface MetadadoIn {
-    id: string;
-    description: string;
+    value: string;
+    label: string;
 }
 
 

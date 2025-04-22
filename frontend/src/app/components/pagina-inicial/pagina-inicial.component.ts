@@ -8,11 +8,11 @@ import { FormsModule } from '@angular/forms';
 import { MenuComponent } from '../menu/menu.component';
 import { UserService } from '../../auth.service';
 import { MetadadoIn } from '../metadados/equipe';
-
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @Component({
   selector: 'app-pagina-inicial',
-  imports: [RouterLink, CommonModule, FormsModule, MenuComponent],
+  imports: [RouterLink, CommonModule, FormsModule, MenuComponent, MultiSelectModule],
   templateUrl: './pagina-inicial.component.html',
   styleUrl: './pagina-inicial.component.css'
 })
@@ -78,8 +78,11 @@ export class PaginaInicialComponent implements OnInit {
 
   metadadosFile: MetadadoIn[] | undefined
 
+  metadadosTeste: MetadadoIn[] | undefined;
+  selectedCities: '' | undefined;
+
   async loadMetadados(){
-    this.http.get<MetadadoIn[]>("http://localhost:3030/metadado/list").subscribe(dados => this.metadadosFile = dados)
+    this.http.get<MetadadoIn[]>("http://localhost:3030/metadado/list").subscribe(dados => this.metadadosTeste = dados)
   }
 
   

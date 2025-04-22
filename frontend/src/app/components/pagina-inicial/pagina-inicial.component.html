@@ -110,11 +110,9 @@
 
         <div class="form-group">
             <label for="meta">Metadados Cadastrados</label>
-            <select name="meta" id="meta">
-                <option [value]="meta.id" *ngFor="let meta of metadadosFile">
-                    {{meta.description}}
-                </option>
-            </select>
+            <div class="card flex justify-center">
+                <p-multiselect [options]="metadadosTeste" [(ngModel)]="selectedCities"  optionLabel="description" placeholder="Select Cities" [maxSelectedLabels]="3" styleClass="w-full md:w-80" />
+            </div>
         </div>
   
   
