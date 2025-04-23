@@ -1,4 +1,4 @@
-import { Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { DocumentoService } from './documento.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -9,20 +9,13 @@ export class DocumentoController {
   constructor(private readonly documentoService: DocumentoService) {}
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file', {
-    storage: diskStorage({
-      destination: path.resolve(__dirname, '..', '..', 'arquivos'),
-      filename: (_req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
-      },
-    }),
-    limits: { fileSize: 1024 * 1024 * 10 },
-  }))
-  async uploadDocument(
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadDocumento(
     @UploadedFile() file: Express.Multer.File,
-    
+    @Body('metadados') metadados: string,
   ) {
-    return await this.documentoService.uploadDocument(file, file.filename);
+    const metadadosArray = JSON.parse(metadados);
+    return this.documentoService.uploadDocument(file,  metadadosArray);
   }
 }
 

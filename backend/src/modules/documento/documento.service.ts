@@ -8,14 +8,9 @@ export class DocumentoService {
 
 
 
-    async uploadDocument(file: Express.Multer.File, filename: string){
-        const document = await this.prisma.document.create({
-            data: {
-              filename: file.filename,
-              
-            }
-        });
+    async uploadDocument(file: Express.Multer.File, metadados: any[]){
+        console.log(file, metadados)
 
-        return document
+        
     }
 }
