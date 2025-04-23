@@ -7,8 +7,9 @@ import { EquipeDTO2 } from '../controle-equipe/dto/equipe.dto';
 import { FormsModule } from '@angular/forms';
 import { MenuComponent } from '../menu/menu.component';
 import { UserService } from '../../auth.service';
-import { MetadadoIn } from '../metadados/equipe';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { DocumentoService } from '../../document.service';
+import { MetadadoIn2 } from '../metadados/equipe';
 
 @Component({
   selector: 'app-pagina-inicial',
@@ -21,7 +22,8 @@ export class PaginaInicialComponent implements OnInit {
   
   constructor(
     private userService: UserService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private document: DocumentoService
   ) {}
 
   @ViewChild('modalDocumento') form!: ElementRef;
@@ -76,13 +78,14 @@ export class PaginaInicialComponent implements OnInit {
   }
 
 
-  metadadosFile: MetadadoIn[] | undefined
+  metadadosFile: MetadadoIn2[] | undefined
 
-  metadadosTeste: MetadadoIn[] | undefined;
-  selectedCities: '' | undefined;
+  metadadosTeste: MetadadoIn2[] | undefined;
+  selectedCities: any[] = [];
+
 
   async loadMetadados(){
-    this.http.get<MetadadoIn[]>("http://localhost:3030/metadado/list").subscribe(dados => this.metadadosTeste = dados)
+    this.http.get<MetadadoIn2[]>("http://localhost:3030/metadado/list").subscribe(dados => this.metadadosTeste = dados)
   }
 
   
@@ -90,10 +93,13 @@ export class PaginaInicialComponent implements OnInit {
   
   
   async uploadDocumento() {
-    const res = await this.http.post("http://localhost:3030/documento/upload", this.fileSelect)
-    .subscribe(nome => {
-      console.log("documentoEnviado")
-    })
+    if (!this.fileSelect) {
+      alert('Selecione um arquivo!');
+      return;
+    }
+
+      this.document.uploadDocumento(this.fileSelect, this.selectedCities).subscribe(response => {console.log("documento enviado com sucesso", response)});
+      this.closeModalDocumento()
   }
 
   
