@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { DocumentoService } from './documento.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -16,6 +16,11 @@ export class DocumentoController {
   ) {
     const metadadosArray = JSON.parse(metadados);
     return this.documentoService.uploadDocument(file,  metadadosArray);
+  }
+
+  @Get('list')
+  async getaAll(){
+    return this.documentoService.getAll()
   }
 }
 
