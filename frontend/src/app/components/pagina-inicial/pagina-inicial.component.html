@@ -42,76 +42,69 @@
 <div class="main-content">
     
   <div class="metadata-form">
-      <h3>Contas Pagas > Documentos</h3>
-      <button class="btn-cadastrarDocumento" (click)="openModalDocumento()">+ Novo Documento</button>
-      <div class="content">
-          <div class="nomeArquivo">
-              <span class="titulo" style="font-size: 25px; color: blue;">Arquivo</span>
-              <div class="arquivo">
-                  <i class="fa-solid fa-file" notepad></i>
-                  <span>Conta de Luz.pdf</span>
-              </div>
-              <div class="arquivo">
-                  <i class="fa-solid fa-file" style="color: #74C0FC;"></i>
-                  <span>RG Frente.jpg</span>
-              </div>
-              <div class="arquivo">
-                  <i class="fa-solid fa-file" style="color: #74C0FC;"></i>
-                  <span>Relatorio Semanal.docx</span>
-              </div>
-          </div>
+    <div class="newFile">
+        <h3>Contas Pagas > Documentos</h3>
+        <div class="addFile" style="background-color: rgb(53, 176, 53); display: flex; flex-direction: row; align-items: center; padding: 8px; gap: 5px; border-radius: 10px;">
+            <i style="color: white;" class="pi pi-plus-circle"></i>
+            <button style="background: none; color: white; border: none;" (click)="openModalDocumento()">Novo Documento</button>
+        </div>
+    </div>
+    <div class="content">
+        <div class="nomeArquivo" >
+            <span class="titulo" style="font-size: 25px; color: blue;">Arquivo</span>
+            <div *ngFor="let docu of documentosFinal">
+            <div class="arquivo">
+                <i class="fa-solid fa-file" notepad></i>
+                <span>{{ docu.filename }}</span>
+            </div>
+            
+            </div>
+            
+        </div>
 
-          <div class="dadosArquivo">
-              <div class="dataArquivo">
-                  <span class="titulo" style="font-size: 25px; color: blue;">Data de Envio</span>
-                  <div class="arquivo">
+        <div class="dadosArquivo">
+            <div class="dataArquivo">
+                <span class="titulo" style="font-size: 25px; color: blue;">Data de Envio</span>
+                <div *ngFor="let docu of documentosFinal">
+                <div class="arquivo">
+                    <span>{{ docu.create }}</span>
+                </div>
+                
+                </div>
+            </div>
+        </div>
 
-                      <span>25 - 10 - 2024</span>
-                  </div>
-                  <div class="arquivo">
-                      <span>05 - 09 - 2024</span>
-                  </div>
-                  <div class="arquivo">
-                      <span>12 - 11 - 2024</span>
-                  </div>
-              </div>
-              <div class="donoArquivo">
-                  <span class="titulo" style="font-size: 25px; color: blue;">Dono</span>
-                  <div class="arquivo">
-
-                      <span>Gustavo Bortoluci</span>
-                  </div>
-                  <div class="arquivo">
-                      <span>Guilherme Bozo</span>
-                  </div>
-                  <div class="arquivo">
-                      <span>Luís Nakamura</span>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-
-
-      
+        <div class="dadosArquivo">
+        <div class="dataArquivo">
+            <span class="titulo" style="font-size: 25px; color: blue;">Dono do Arquivo</span>
+            <div *ngFor="let docu of documentosFinal">
+                <div class="arquivo">
+                    <span>{{ docu.donoId }}</span>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    </div>     
   </div>
 </div>
 
 
 
-<div id="modalCadastro" class="modal" #modalDocumento>
+<div id="modalCadastro" class="modal" #modalDocumento className="teste">
     <div class="modal-content">
       <i class="fa-solid fa-xmark" (click)="closeModalDocumento()"></i>
-      <h2>Upload de Arquivo</h2>
+      <h2 style="align-self: center;">Upload de Arquivo</h2>
       <div id="formDocumento" >
-        <div class="form-group">
+        <div class="form-group" >
+            <label for="file">Escolha um arquivo</label>
             <input type="file" (change)="onFileSelected($event)">
         </div>
 
         <div class="form-group">
             <label for="meta">Metadados Cadastrados</label>
             <div class="card flex justify-center">
-                <p-multiselect [options]="metadadosTeste" [(ngModel)]="selectedCities"  optionLabel="description" placeholder="Select Cities" [maxSelectedLabels]="3" styleClass="w-full md:w-80" />
+                <p-multiselect [options]="metadadosTeste" [(ngModel)]="selectedCities" [filter]="true" optionLabel="description" placeholder="Selecione os Metadados" [maxSelectedLabels]="3" styleClass="w-full md:w-80"   />
             </div>
         </div>
   

@@ -7,6 +7,7 @@ export class Login2 {
   accesToken!: string
   refreshToken!: string
   user!: {
-    nome: string
+    nome: string,
+    id: string
   }
 }

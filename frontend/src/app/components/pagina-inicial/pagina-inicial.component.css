@@ -46,7 +46,6 @@ table {
 
 
 
-
 /* Barra lateral */
 .sidebar {
   background-color: #fff;
@@ -199,6 +198,10 @@ table {
   width: 50%;
   border-radius: 5px;
   position: relative;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .close {
@@ -223,10 +226,12 @@ table {
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 8px;
+  padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   box-sizing: border-box;
+
+  
 }
 
 .modal-buttons {
@@ -259,4 +264,12 @@ table {
   padding: 8px;
   border-radius: 10px;
   background-color: aquamarine;
+}
+
+.newFile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  gap: 1rem ;
 }

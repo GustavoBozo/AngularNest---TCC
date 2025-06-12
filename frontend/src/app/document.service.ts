@@ -10,10 +10,11 @@ export class DocumentoService {
 
   constructor(private http: HttpClient) { }
 
-  uploadDocumento(file: File, metadados: any[]): Observable<any> {
+  uploadDocumento(file: File, metadados: any[], idDono: string): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('metadados', JSON.stringify(metadados));
+    formData.append('idDono', idDono);
     
     return this.http.post(`${this.apiUrl}/documento/upload`, formData);
   }

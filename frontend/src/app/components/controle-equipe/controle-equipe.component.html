@@ -12,8 +12,8 @@
   <table>
     <thead>
       <tr>
-        <th>Nome da Equipe</th>
-        <th>Ações</th>
+        <th style="border-radius: 10px 0 0 0; border-bottom: 4px solid #cde2f7 !important;">Nome da Equipe</th>
+        <th style="border-radius: 0 10px 0 0; border-bottom: 4px solid #cde2f7 !important;">Ações</th>
       </tr>
     </thead>
     <tbody>
@@ -22,7 +22,9 @@
 
         <td>
 
-          <a (click)="adicionarMembros(equipe.id)">Adicionar Membros</a>
+          <div class="addMember" (click)="adicionarMembros(equipe.id)">
+            <i class="pi pi-plus-circle" style="color: white;"></i><a (click)="adicionarMembros(equipe.id)">Adicionar Membros</a>
+          </div>
         </td>
       </tr>
 

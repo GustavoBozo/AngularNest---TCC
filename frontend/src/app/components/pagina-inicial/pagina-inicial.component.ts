@@ -1,4 +1,4 @@
-import { CommonModule, JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -10,6 +10,11 @@ import { UserService } from '../../auth.service';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DocumentoService } from '../../document.service';
 import { MetadadoIn2 } from '../metadados/equipe';
+import { DocumentoIn, DocumentosFilter, UserDocu } from './dto';
+
+
+
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-pagina-inicial',
@@ -23,7 +28,8 @@ export class PaginaInicialComponent implements OnInit {
   constructor(
     private userService: UserService,
     private cdr: ChangeDetectorRef,
-    private document: DocumentoService
+    private document: DocumentoService,
+    private cookie: CookieService
   ) {}
 
   @ViewChild('modalDocumento') form!: ElementRef;
@@ -48,44 +54,33 @@ export class PaginaInicialComponent implements OnInit {
   nomeUser?: string;
   nomeEquipe?: string;
   data?: EquipeDTO2;
-  idTeste?: string
+  idTeste?: string;
+  nomeUserDocu?: string
 
   async ngOnInit(){
-    
-    
-    await this.nomeEquipeCoki();
     await this.teste();
     await this.loadMetadados();
-    
+    await this.getDocumentos();
   }
   
-  async nomeEquipeCoki(){
-    
-    this.nomeUser = localStorage.getItem('userLogin')?.toString()
-
-    try {
-
-      const res = await firstValueFrom(this.http.get("http://localhost:3030/usuario/idUser"));
-      this.idTeste = res.toString()
-
-      
-      
-    } catch (err) {
-      console.log(err)
-    }
-    
-    
-  }
+  
 
 
-  metadadosFile: MetadadoIn2[] | undefined
+  metadadosFile: MetadadoIn2[] | undefined;
 
   metadadosTeste: MetadadoIn2[] | undefined;
+
+  documentosUp: DocumentoIn[] | undefined;
+
   selectedCities: any[] = [];
 
 
+  documentosFinal: DocumentosFilter[] = [];
+
   async loadMetadados(){
     this.http.get<MetadadoIn2[]>("http://localhost:3030/metadado/list").subscribe(dados => this.metadadosTeste = dados)
+
+    
   }
 
   
@@ -98,19 +93,73 @@ export class PaginaInicialComponent implements OnInit {
       return;
     }
 
-      this.document.uploadDocumento(this.fileSelect, this.selectedCities).subscribe(response => {console.log("documento enviado com sucesso", response)});
+    if(this.cookie.check('idLogado')){
+
+      const idUser = this.cookie.get('idLogado')
+
+      this.document.uploadDocumento(this.fileSelect, this.selectedCities, idUser).subscribe(response => {console.log("documento enviado com sucesso", response)});
       this.closeModalDocumento()
+    }
+
+  }
+
+  
+
+  async getDocumentos() {
+    this.http.get<any[]>("http://localhost:3030/documento/list").subscribe(dados => this.documentosUp = dados)
+
+    const teste1: [] = []
+
+    this.documentosUp?.map(async (item) => {
+      const data1: {
+        donoId: string;
+        filename: string;
+        id: string;
+        create: string;
+      } = {
+        donoId: "",
+        filename: "",
+        id: "",
+        create: ""
+      };
+      
+        console.log(item)
+
+        data1.id = item.id
+        data1.filename = item.filename
+        data1.create = item.createdAt
+
+
+        const res1 = await this.http.get<UserDocu>(`http://localhost:3030/usuario/listId/${item.donoId}`).subscribe(nomes => {
+          this.nomeUserDocu = nomes.name
+          if(this.nomeUserDocu){
+            data1.donoId = this.nomeUserDocu
+          }
+
+          
+
+          
+
+        })
+        this.documentosFinal?.push(data1)
+        console.log(this.documentosFinal)
+
+    })
+
   }
 
   
   async teste(){
+    this.nomeUser = this.cookie.get('userLogin')
+
+    console.log(this.nomeUser)
     const res1 = await this.http.get<EquipeDTO2>(`http://localhost:3030/equipe/listEquipe/${this.idTeste}`)
     .subscribe(nome1 => {
       const a = JSON.stringify(nome1)
       this.data = JSON.parse(a)[0]
       this.nomeEquipe = this.data?.team.name
       
-      console.log(this.nomeEquipe)
+      
       this.userService.updateUserTeam(this.nomeEquipe);
     })
     

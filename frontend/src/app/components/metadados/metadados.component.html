@@ -10,20 +10,20 @@
     </div>
 
 
-  <table>
+  <table class="tableMeta">
     <thead>
-      <tr>
-        <th>Nome do Metadados</th>
-        <th>Ações</th>
+      <tr >
+        <th style="border-radius: 10px 0 0 0; border-bottom: 4px solid #cde2f7 !important;" >Nome do Metadados</th>
+        <th style="border-radius: 0 10px 0 0; border-bottom: 4px solid #cde2f7 !important;" >Ações</th>
       </tr>
     </thead>
     <tbody >
-      <tr *ngFor="let meta of metadados">
+      <tr *ngFor="let meta of metadados" >
         <td>{{ meta.description }}</td>
 
         <td>
 
-          <a (click)="openModalDelete(meta.id)">Excluir</a>
+          <a class="exMeta" (click)="openModalDelete(meta.id)"><i class="pi pi-trash"></i></a>
         </td>
       </tr>
 
