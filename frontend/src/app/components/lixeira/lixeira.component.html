@@ -1,0 +1,49 @@
+<app-menu ></app-menu>
+
+<div class="container">
+    
+
+
+  <table class="tableMeta">
+    <thead>
+      <tr >
+        <th style="border-radius: 10px 0 0 0; border-bottom: 4px solid #cde2f7 !important;" >Nome do Arquivo</th>
+        <th style="border-radius: 0 10px 0 0; border-bottom: 4px solid #cde2f7 !important;" >Ações</th>
+      </tr>
+    </thead>
+    <tbody >
+      <tr *ngFor="let meta of documentosInativos" >
+        <td>{{ meta.filename }}</td>
+
+        <td>
+
+          <a class="exMeta" (click)="openModalDelete(meta.id, meta.filename)"><i class="pi pi-undo"></i></a>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+
+
+
+<div id="modalDelete" class="modal" #modalAtivar>
+  <div class="modal-content">
+    <i class="fa-solid fa-xmark" (click)="closeModalDelete()"></i>
+    <h2>Deletar Metadado</h2>
+    <form id="formDocumento" #deleteForm="ngForm" (ngSubmit)="ativarArquivo()">
+      <div class="form-group" style="display: flex; flex-direction: row;">
+
+        Deseja restaurar este documento: <label style="font-weight: bold; padding-left: 5px;"> {{ deleteName }}</label>
+      </div>
+
+
+
+      <div class="modal-buttons">
+        <button type="button" class="btn-cancelar" (click)="closeModalDelete()">Cancelar</button>
+        <button type="submit" class="btn-salvar">Excluir</button>
+      </div>
+    </form>
+  </div>
+</div>
+

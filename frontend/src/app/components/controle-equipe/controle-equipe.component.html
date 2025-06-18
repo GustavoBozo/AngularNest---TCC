@@ -61,7 +61,7 @@
     <form id="formDocumento" #equipeFormUsuario="ngForm" (ngSubmit)="createEquipeUsuario(equipeFormUsuario.value)">
       <div class="form-group">
         <label for="description">Usuários Cadastrados</label>
-        <select name="user" id="user">
+        <select name="userId" id="user" ngModel>
           <option [value]="user.id" *ngFor="let user of usuarios">
             {{user.name}}
           </option>

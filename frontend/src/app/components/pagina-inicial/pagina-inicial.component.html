@@ -38,7 +38,7 @@
         </div>
       </div>
         <div class="pesquisa_input">
-          <p-multiselect [options]="metadadosFiltro" [(ngModel)]="selectedFiltro" [filter]="true" optionLabel="description" placeholder="Escolha os Metadados" [maxSelectedLabels]="3" styleClass="w-full md:w-80"   />
+          <p-multiselect [options]="metadadosFiltro" [(ngModel)]="selectedFiltro" [filter]="true" optionLabel="description" placeholder="Escolha os Metadados" [maxSelectedLabels]="3" styleClass="w-100 md:w-80"   />
           <i class="pi pi-search" (click)="pesquisar()"></i>
         </div>
     </div>
@@ -116,14 +116,11 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="meta">Salvar na pasta</label>
-            <div class="card flex justify-center">
-                <p-multiselect [options]="secoes" [(ngModel)]="selectedSecs" [filter]="true" optionLabel="name" placeholder="Selecione a pasta" [maxSelectedLabels]="3" styleClass="w-full md:w-80"   />
-            </div>
+        <div class="form-group1" style="display: flex; flex-direction: row;"> 
+            <label for="meta">Compartilhar com a Equipe? </label>
+            <input type="checkbox" name="comp" (click)="compartilhar()">
         </div>
-  
-  
+
         <div class="modal-buttons">
           <button type="button" class="btn-cancelar" (click)="closeModalDocumento()">Cancelar</button>
           <button type="submit" class="btn-salvar" (click)="uploadDocumento()">Salvar</button>

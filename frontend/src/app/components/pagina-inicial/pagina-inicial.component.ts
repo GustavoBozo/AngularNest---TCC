@@ -13,6 +13,7 @@ import { MetadadoIn2 } from '../metadados/equipe';
 import { DocumentoIn, DocumentosFilter, SecaoDTO, SecTeste, UserDocu } from './dto';
 import { NgZone } from '@angular/core';
 import { SelectModule } from 'primeng/select';
+import emailjs, { type EmailJSResponseStatus } from '@emailjs/browser';
 
 import { CookieService } from 'ngx-cookie-service';
 
@@ -115,6 +116,7 @@ export class PaginaInicialComponent implements OnInit {
       this.loadMetadados();
 
       this.loadSecao();
+
     });
   }
   
@@ -198,6 +200,40 @@ export class PaginaInicialComponent implements OnInit {
     
   }
 
+  async compartilhar(){
+    
+    this.idLogar = this.cookie.get('idLogado')
+
+    console.log(this.idLogar)
+    const res1 = await this.http.get<EquipeDTO2>(`http://localhost:3030/equipe/listEquipe/${this.idLogar}`)
+    .subscribe(async nome1 => {
+      
+      const a = JSON.stringify(nome1)
+      this.data = JSON.parse(a)[0]
+      this.nomeEquipe = this.data?.team.name
+      
+      await this.http.get<any[]>(`http://localhost:3030/equipe/membro/${this.nomeEquipe}`).subscribe(dado => {
+      const emails = dado.map(entry => {return entry.user.email})
+
+      const emailList = emails.join(', ');
+      
+      console.log(emailList)
+      const params = {
+        to_email: emailList, // Use este campo no seu template
+      };
+
+      return emailjs.send(
+        'service_gfw77ms',
+        'template_qkl4v0q',
+        params,
+        'Fx_3lChGkht1Jv9Ss'
+      );
+    })
+      
+    })
+    
+  }
+
   async loadSecao(){
     this.http.get<SecaoDTO[]>("http://localhost:3030/secao/list").subscribe(dados => {
       this.secoes = dados
@@ -226,13 +262,14 @@ export class PaginaInicialComponent implements OnInit {
 
     
   }
+  idUser: string = ''
 
   async uploadDocumento() {
     if (!this.fileSelect) {
       alert('Selecione um arquivo!');
       return;
     }
-
+    
     if(this.cookie.check('idLogado')){
 
       const idUser = this.cookie.get('idLogado')
@@ -347,13 +384,16 @@ export class PaginaInicialComponent implements OnInit {
 
   }
 
-  
+  idLogar: string = ''
+
   async teste(){
     this.nomeUser = this.cookie.get('userLogin')
+    this.idLogar = this.cookie.get('idLogado')
 
-    console.log(this.nomeUser)
-    const res1 = await this.http.get<EquipeDTO2>(`http://localhost:3030/equipe/listEquipe/${this.idTeste}`)
+    console.log(this.idLogar)
+    const res1 = await this.http.get<EquipeDTO2>(`http://localhost:3030/equipe/listEquipe/${this.idLogar}`)
     .subscribe(nome1 => {
+      
       const a = JSON.stringify(nome1)
       this.data = JSON.parse(a)[0]
       this.nomeEquipe = this.data?.team.name

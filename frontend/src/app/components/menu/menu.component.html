@@ -9,13 +9,17 @@
                 <li><a href="/home" class="nav-link">Documentos</a></li>
                 <li><a href="/metadado" class="nav-link">Metadados</a></li>
                 <li><a href="/equipe" class="nav-link">Equipes</a></li>
-                <li><a href="#" class="nav-link">Lixeira</a></li>
+                <li><a href="/lixeira " class="nav-link">Lixeira</a></li>
             </ul>
         </nav>
     </div>
-    <div class="cargo">
-        <span style="font-size: 15px;">{{ recebeNome }}</span>
-        <span style="font-size: 15px;">{{ recebeEquipe }}</span>
+    <div class="cargo" style="display: flex; flex-direction: row; align-items: center; padding-right: 15px;">
+        <div class="nomes" style="display: flex; flex-direction: column;">
+
+            <span style="font-size: 15px;">{{ recebeNome }}</span>
+            <span style="font-size: 15px;">{{ recebeEquipe }}</span>
+        </div>
+        <a href="#" style="text-decoration: none; color: white;"><i class="pi pi-sign-out" style="font-size: 2rem;"></i></a>
     </div>
   </div>
   

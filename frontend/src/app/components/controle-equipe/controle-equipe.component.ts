@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Data, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { EquipeIn, UserIn, UserTeamIn } from './dto/equipe.dto';
 import { MenuComponent } from '../menu/menu.component';
@@ -47,6 +47,8 @@ export class ControleEquipeComponent {
   adicionarMembros(id: string){
     this.userEquipe.nativeElement.style.display = 'block';
     this.teamId = id;
+
+   
   }
 
   closeModalEquipeUsuario(){
@@ -63,12 +65,27 @@ export class ControleEquipeComponent {
     })
   }
 
-  createEquipeUsuario(data: {name: string, email: string}){
+  createEquipeUsuario(data: {name: string, email: string, userId: string}){
 
-    return this.http.post<UserTeamIn>(`http://localhost:3030/equipe/addEquipe/${this.teamId}`, data)
-    .subscribe(equipeUser => {
-      console.log("Adicionado com sucesso", equipeUser)
-    })
+    if(data.userId){
+
+      return this.http.post<UserTeamIn>(`http://localhost:3030/equipe/addEquipe/${this.teamId}/${data.userId}`, data)
+      .subscribe(equipeUser => {
+        console.log("Adicionado com sucesso", equipeUser)
+      })
+    } else {
+      console.log(data)
+
+       const dataFinal = {
+        email:  data.email,
+        name: data.name
+      }
+
+      return this.http.post<UserTeamIn>(`http://localhost:3030/equipe/addEquipe/${this.teamId}`, dataFinal )
+      .subscribe(equipeUser => {
+        console.log("Adicionado com sucesso", equipeUser)
+      })
+    }
   }
 
   loadMetadata(){
