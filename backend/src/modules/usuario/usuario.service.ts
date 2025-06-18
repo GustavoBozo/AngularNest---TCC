@@ -32,6 +32,15 @@ export class UsuarioService {
         
     }
 
+    async getUserID(id: string){
+        return this.prisma.user.findUnique({
+            where: {
+                id: id
+            }
+        })
+        
+    }
+
     async create(data: UserRegisterDTO) {
         const user = await this.prisma.user.findFirst({
             where: {
@@ -74,12 +83,16 @@ export class UsuarioService {
     }
 
     async login(login: loginDTO):Promise<any> {
+        
+        
         const user = await this.prisma.user.findUnique({
             where: {
                 email: login.email
             }
         })
 
+
+        console.log(user)
         if(!user){
             throw new HttpException({message: 'Usuário não cadastrado'}, HttpStatus.UNAUTHORIZED)
         }
@@ -115,12 +128,13 @@ export class UsuarioService {
 
         
         
-
+        
         return {
             accesToken,
             refreshToken,
             user: {
-                "nome": this.nomeUser
+                "nome": this.nomeUser,
+                "id": this.idUser         
             }
         }
 

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { User } from '@prisma/client'
 import { UserRegisterDTO } from './dto/user.dto';
@@ -21,6 +21,11 @@ export class UsuarioController {
   @Get('list')
   getAll():Promise<any>{
     return this.usuarioService.getUser()
+  }
+
+  @Get('listId/:userId')
+  getId(@Param('userId') userId: string){
+    return this.usuarioService.getUserID(userId)
   }
 
   @Get("nomeUser")

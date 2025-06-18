@@ -8,13 +8,15 @@ export class MetadadoService {
 
 
     async create(data: MetadadoDTO) {
-        const metadado = await this.prisma.metadados.findFirst({
+
+        
+        const metadado = await this.prisma.metadados.findMany({
             where: {
                 description: data.description
             }
         })
 
-        if(metadado){
+        if(metadado[0]){
             throw new HttpException({message: 'Metadado já cadastrado'}, HttpStatus.BAD_REQUEST)
         }
 
