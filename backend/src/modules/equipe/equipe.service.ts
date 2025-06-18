@@ -43,5 +43,20 @@ export class EquipeService {
         });
     }
 
+    async getName(name: string) {
+        return this.prisma.teamMembership.findMany({
+            
+            include: {
+                team: true,
+                user: true
+            },
+            where: {
+                team: {
+                    name: name
+                }
+            }
+        })
+    }
+
     
 }

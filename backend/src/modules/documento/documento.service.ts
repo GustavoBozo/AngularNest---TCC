@@ -10,7 +10,7 @@ export class DocumentoService {
 
     async uploadDocument(file: Express.Multer.File, metadados: any[], idDono: string, idSec: string){
         
-
+        
         const sec = await this.prisma.secao.findUnique({
             where: {
                 id: idSec
@@ -23,7 +23,8 @@ export class DocumentoService {
             const dataDcoumento = {
                 filename: file.originalname,
                 donoId: idDono,
-                secId: sec.id
+                secId: sec.id,
+                ativo: 1
             }
             
             
@@ -31,10 +32,10 @@ export class DocumentoService {
                 data: dataDcoumento
             })
 
-            console.log('aqui')
+            
 
             await metadados.map(async (metadao)  =>  {
-                console.log("passou aqui")
+                
                 const res = await this.prisma.documentMetadata.create({
                     data: {
                         documentId: documentoNew.id,
@@ -84,6 +85,9 @@ export class DocumentoService {
             },
             orderBy: {
             createdAt: 'desc'
+            },
+            where: {
+                ativo: 1 
             }
         });
     }
@@ -119,20 +123,16 @@ export class DocumentoService {
 
 
     async delete(id: string){
-        await this.prisma.documentMetadata.deleteMany({
-            where: {
-                documentId: id
-            }
-        });
- 
-        return await this.prisma.document.delete({
+        return await this.prisma.document.update({
             where: {
                 id: id
             },
-             include: {
-                documentMetadata: true 
+            data: {
+                ativo: 0
             }
-        })
+        });
+ 
+        
     }
 
 
@@ -165,6 +165,27 @@ export class DocumentoService {
         
         console.log(resultado)
         return resultado
+    }
+
+    async getInatvios(){
+        return await this.prisma.document.findMany({
+            where: {
+                ativo: 0
+            }
+        })
+    }
+
+
+    async ativar(idD: string){
+        return await this.prisma.document.update({
+            where: {
+                id: idD
+            },
+            
+            data: {
+                ativo: 1
+            }
+        })
     }
 
     

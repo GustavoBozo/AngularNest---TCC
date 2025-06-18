@@ -14,3 +14,12 @@ export class UserRegisterDTO {
     password: string
 
 }
+
+export class UserEquipe {
+    
+    name: string
+
+    email: string
+
+    userId: string
+}

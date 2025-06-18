@@ -34,6 +34,7 @@ model Document {
   section          Secao              @relation(fields: [secId], references: [id])
   dono             User               @relation("UserDocuments", fields: [donoId], references: [id])
   documentMetadata DocumentMetadata[]
+  ativo            Int
 }
 
 model Metadados {

@@ -25,7 +25,7 @@ export class UsuarioController {
 
   @Get('listId/:userId')
   getId(@Param('userId') userId: string){
-    return this.usuarioService.getUserID(userId)
+    return this.usuarioService.findByUser(userId)
   }
 
   @Get("nomeUser")

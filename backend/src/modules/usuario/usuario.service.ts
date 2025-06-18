@@ -32,6 +32,26 @@ export class UsuarioService {
         
     }
 
+    async getUserName(name: string){
+        const user = this.prisma.user.findMany({
+            where: {
+                name: name
+            }
+        })
+
+        return user[0]
+        
+    }
+
+    async getUserId(id: string){
+        return this.prisma.user.findUnique({
+            where: {
+                id: id
+            }
+        })
+        
+    }
+
     async getUserID(id: string){
         return this.prisma.user.findUnique({
             where: {

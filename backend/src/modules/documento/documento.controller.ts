@@ -17,6 +17,7 @@ export class DocumentoController {
     @Body('idSec') idSec: string
   ) {
     const metadadosArray = JSON.parse(metadados);
+    const teste = file.path
     return this.documentoService.uploadDocument(file,  metadadosArray, idDono, idSec);
   }
 
@@ -48,6 +49,17 @@ export class DocumentoController {
   }
 
   
+  @Get('inativo')
+  async getIna(){
+    return this.documentoService.getInatvios()
+  }
+
+  
+  @Post('ativo/:id')
+  ativar(@Param('id') id: string):Promise<any>{
+    return this.documentoService.ativar(id)
+  }
+
 }
 
 
