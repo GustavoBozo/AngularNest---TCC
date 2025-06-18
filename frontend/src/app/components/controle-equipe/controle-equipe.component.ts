@@ -5,10 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { EquipeIn, UserIn, UserTeamIn } from './dto/equipe.dto';
+import { MenuComponent } from '../menu/menu.component';
 
 @Component({
   selector: 'app-controle-equipe',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MenuComponent],
   templateUrl: './controle-equipe.component.html',
   styleUrl: './controle-equipe.component.css'
 })

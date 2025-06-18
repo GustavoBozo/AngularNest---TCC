@@ -10,7 +10,8 @@ export interface DocumentosFilter {
     id: string,
     filename: string,
     donoId: string,
-    create: string
+    create: string,
+    meta?: Array<String>
 }
 
 export interface UserDocu {
@@ -20,4 +21,13 @@ export interface UserDocu {
     password: string,
     createdAt: string,
     updatedAt: string
+}
+
+export interface SecaoDTO {
+    id: string,
+    name: string
+}
+
+export interface SecTeste { 
+    id: string
 }

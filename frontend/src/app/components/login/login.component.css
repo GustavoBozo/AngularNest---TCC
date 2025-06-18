@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: center;
 
-  background-color: #6f90f2;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .login-container {
@@ -71,4 +71,34 @@ button {
 
 button:hover {
   background-color: #357ABD;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+
+    padding-bottom: 15px;
+    justify-content: center;
+}
+
+.logo-icon {
+    width: 80px;
+    height: 80px;
+    background: rgb(99, 94, 251);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 32px;
+}
+
+.logo-text {
+    color: white;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
 }

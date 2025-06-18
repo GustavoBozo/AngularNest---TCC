@@ -1,10 +1,12 @@
 .header {
-    background-color: #1d3149;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: #fff;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    height: 6rem;
 }
 .header h1 {
     font-size: 1.2em;
@@ -14,6 +16,55 @@
     display: flex;
     flex-direction: column;
     gap: 11px;
+}
+
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #667eea;
+    font-size: 18px;
+}
+
+.logo-text {
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+
+.option .nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.option .nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.option .nav-link:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
 }
 
 

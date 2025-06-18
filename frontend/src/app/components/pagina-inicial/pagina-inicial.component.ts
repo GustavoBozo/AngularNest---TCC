@@ -10,15 +10,15 @@ import { UserService } from '../../auth.service';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DocumentoService } from '../../document.service';
 import { MetadadoIn2 } from '../metadados/equipe';
-import { DocumentoIn, DocumentosFilter, UserDocu } from './dto';
-
-
+import { DocumentoIn, DocumentosFilter, SecaoDTO, SecTeste, UserDocu } from './dto';
+import { NgZone } from '@angular/core';
+import { SelectModule } from 'primeng/select';
 
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-pagina-inicial',
-  imports: [RouterLink, CommonModule, FormsModule, MenuComponent, MultiSelectModule],
+  imports: [CommonModule, FormsModule, MenuComponent, MultiSelectModule, SelectModule],
   templateUrl: './pagina-inicial.component.html',
   styleUrl: './pagina-inicial.component.css'
 })
@@ -29,15 +29,20 @@ export class PaginaInicialComponent implements OnInit {
     private userService: UserService,
     private cdr: ChangeDetectorRef,
     private document: DocumentoService,
-    private cookie: CookieService
+    private cookie: CookieService,
+    private ngZ: NgZone
   ) {}
 
   @ViewChild('modalDocumento') form!: ElementRef;
+  @ViewChild('modalSecao') formSec!: ElementRef;
+  @ViewChild('modalDocumentoDelete') delete!: ElementRef;
+
   
   http = inject(HttpClient)
 
   fileSelect: File | null = null;
 
+  secaoAtiva: string = '';
 
   onFileSelected(event: any) {
     this.fileSelect = event.target.files[0];
@@ -47,9 +52,52 @@ export class PaginaInicialComponent implements OnInit {
     this.form.nativeElement.style.display = 'block';
   }
 
+  
   closeModalDocumento(){
     this.form.nativeElement.style.display = 'none';
   }
+
+  //Modal Seção
+  openSecModal(){
+    this.formSec.nativeElement.style.display = 'block';
+  }
+
+  closeModalSec(){
+    this.formSec.nativeElement.style.display = 'none';
+  }
+
+  deleteName: string | undefined
+
+  //Modal Delete
+  openDelete(id:string, name: string){
+    this.delete.nativeElement.style.display = 'block';
+    this.deleteId = id;
+    this.deleteName = name
+  }
+
+  closeDelete(){
+    this.delete.nativeElement.style.display = 'none';
+    this.deleteId = '';
+  }
+
+  createSec(data: SecaoDTO){
+    return this.http.post<SecaoDTO>("http://localhost:3030/secao/create", data)
+    .subscribe(metadado => {
+      console.log("Metadado Criado", metadado)
+      this.loadSecao()
+      this.closeModalSec()
+    })
+  }
+
+  deleteId: string | undefined;
+
+  deleteDocumento(){
+    return this.http.delete<any>(`http://localhost:3030/documento/delete/${this.deleteId}`, {})
+    .subscribe(deletado => {
+      location.reload()
+    })
+  }
+
 
   nomeUser?: string;
   nomeEquipe?: string;
@@ -58,9 +106,16 @@ export class PaginaInicialComponent implements OnInit {
   nomeUserDocu?: string
 
   async ngOnInit(){
-    await this.teste();
-    await this.loadMetadados();
-    await this.getDocumentos();
+    
+
+    this.ngZ.run(() => {
+      this.getDocumentosSec(this.secaoAtiva);
+
+      this.teste();
+      this.loadMetadados();
+
+      this.loadSecao();
+    });
   }
   
   
@@ -70,23 +125,108 @@ export class PaginaInicialComponent implements OnInit {
 
   metadadosTeste: MetadadoIn2[] | undefined;
 
+  metadadosFiltro: MetadadoIn2[] | undefined;
+
   documentosUp: DocumentoIn[] | undefined;
 
+  documentosUp1: DocumentoIn[] | undefined;
+
   selectedCities: any[] = [];
+
+  selectedSecs: any[] = [];
+
+  selectedFiltro: any[] = [];
+
+  secoes: SecaoDTO[] = []
 
 
   documentosFinal: DocumentosFilter[] = [];
 
   async loadMetadados(){
-    this.http.get<MetadadoIn2[]>("http://localhost:3030/metadado/list").subscribe(dados => this.metadadosTeste = dados)
+    this.http.get<MetadadoIn2[]>("http://localhost:3030/metadado/list").subscribe(dados => {
+      
+      this.metadadosTeste = dados;
+      this.metadadosFiltro = dados;
+    })
+    
+  }
+
+  async pesquisar(){
+    
+
+    const formData = new FormData();
+    formData.append('metadados', JSON.stringify(this.selectedFiltro));
+    let documentos: any[] = [];
+
+    return this.http.post("http://localhost:3030/documento/filtrar", formData).subscribe(dado => {
+      documentos = [dado]
+
+      this.documentosFinal = []
+      documentos.map(async (item) => {
+        item.map(async (final: any) => {
+          const data1: {
+          donoId: string;
+          filename: string;
+          id: string;
+          create: string;
+          meta: []
+        } = {
+          donoId: "",
+          filename: "",
+          id: "",
+          create: "",
+          meta: []
+        };
+        
+          console.log(item)
+  
+          data1.id = final.id
+          data1.filename = final.filename
+          data1.create = final.createdAt
+        
+          data1.meta = final.documentMetadata.map((meta: any) => meta.metadados.description)
+          
+          console.log(data1)
+
+          
+          
+          this.documentosFinal?.push(data1)
+        })
+  
+      })
+    });
+    
+  }
+
+  async loadSecao(){
+    this.http.get<SecaoDTO[]>("http://localhost:3030/secao/list").subscribe(dados => {
+      this.secoes = dados
+
+      this.secaoAtiva = dados[0].name
+      this.idSec = dados[0].id
+      console.log(this.idSec)
+    })
+      
+  }
+
+  idSec: string = ''
+  
+  async trocarSec(secName: string){
+    
+    this.secaoAtiva = secName
+    this.documentosFinal = [];
+
+    const idSec1 = await firstValueFrom(this.http.get<any[]>(`http://localhost:3030/secao/list/${this.secaoAtiva}`)) 
+    
+    this.idSec = idSec1[0].id
+    
+    await this.getDocumentosSec(this.secaoAtiva);
+    
+    
 
     
   }
 
-  
-
-  
-  
   async uploadDocumento() {
     if (!this.fileSelect) {
       alert('Selecione um arquivo!');
@@ -96,8 +236,9 @@ export class PaginaInicialComponent implements OnInit {
     if(this.cookie.check('idLogado')){
 
       const idUser = this.cookie.get('idLogado')
+      console.log(this.selectedCities)
 
-      this.document.uploadDocumento(this.fileSelect, this.selectedCities, idUser).subscribe(response => {console.log("documento enviado com sucesso", response)});
+      this.document.uploadDocumento(this.fileSelect, this.selectedCities, idUser, this.idSec).subscribe(response => {console.log("documento enviado com sucesso", response)});
       this.closeModalDocumento()
     }
 
@@ -109,6 +250,7 @@ export class PaginaInicialComponent implements OnInit {
     this.http.get<any[]>("http://localhost:3030/documento/list").subscribe(dados => this.documentosUp = dados)
 
     const teste1: [] = []
+    
 
     this.documentosUp?.map(async (item) => {
       const data1: {
@@ -145,6 +287,63 @@ export class PaginaInicialComponent implements OnInit {
         console.log(this.documentosFinal)
 
     })
+
+  }
+
+  metadadosDocu: [] = []
+
+  async getDocumentosSec(nomeSec: string) {
+    console.log(nomeSec)
+    
+    this.documentosFinal = []
+    await this.http.get<any[]>(`http://localhost:3030/documento/list/${nomeSec}`).subscribe(async dados => {
+
+      this.metadadosDocu = []
+      dados.map(async (item) => {
+        const data1: {
+          donoId: string;
+          filename: string;
+          id: string;
+          create: string;
+          meta: []
+        } = {
+          donoId: "",
+          filename: "",
+          id: "",
+          create: "",
+          meta: []
+        };
+        
+          console.log(item)
+  
+          data1.id = item.id
+          data1.filename = item.filename
+          data1.create = item.createdAt
+        
+          data1.meta = item.documentMetadata.map((meta: any) => meta.metadados.description)
+          
+          console.log(data1)
+
+          const res1 = await this.http.get<UserDocu>(`http://localhost:3030/usuario/listId/${item.donoId}`).subscribe(nomes => {
+            this.nomeUserDocu = nomes.name
+            if(this.nomeUserDocu){
+              data1.donoId = this.nomeUserDocu
+            }
+  
+            
+  
+            
+  
+          })
+          
+          this.documentosFinal?.push(data1)
+  
+      })
+    })
+    
+    
+    
+    
 
   }
 

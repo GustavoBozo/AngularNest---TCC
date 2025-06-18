@@ -39,9 +39,22 @@ table {
 
 }
 
+
+
 .donoArquivo span {
   padding-bottom: 25px;
 
+}
+
+.secaoPasta1 {
+  background-color: rgb(7, 190, 7); 
+  padding: 8px; 
+  border-radius: 10px;
+  gap: 1rem;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 
@@ -52,7 +65,7 @@ table {
   width: 12rem;
   padding: 20px;
   position: fixed;
-  height: 87%;
+  height: 89%;
   overflow: auto;
   border-right: 1px solid #ddd;
   display: flex;
@@ -79,6 +92,26 @@ table {
   margin-left: 270px;
   padding: 20px;
 }
+
+.pesquisa {
+  margin-left: 289px;
+  padding: 12px;
+  background-color: #fff;
+  border-radius: 9px;
+  margin-right: 20px;
+  padding-top: 9px;
+  margin-top: 20px;
+}
+
+.pesquisa_input {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+
+  align-items: center;
+  
+}
+
 .content-header {
   font-size: 1.3em;
   color: #333;
@@ -86,6 +119,7 @@ table {
   padding-bottom: 10px;
   margin-bottom: 20px;
 }
+
 .metadata-form {
   background-color: #fff;
   padding: 20px;
@@ -258,6 +292,34 @@ table {
   cursor: pointer;
 }
 
+.btn-salvar1 {
+  background-color: #f82b2b;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.metaFile {
+  padding: 8px;
+  background-color: rgb(86, 192, 86);
+  border-radius: 10px;
+
+
+}
+
+.testeMeta {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.metaFile span {
+  color: white;
+}
+
+
 .btn-cadastrarDocumento {
   background: none;
   border: 1px solid black;
@@ -272,4 +334,13 @@ table {
   align-items: center;
 
   gap: 1rem ;
+
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.exMeta {
+  background-color: rgb(255, 114, 114);
+  padding: 6px;
+  border-radius: 10px;
 }

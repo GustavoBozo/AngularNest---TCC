@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),
     provideAnimationsAsync(),
-    providePrimeNG({ theme: { preset: Nora, options: {
+    providePrimeNG({ theme: { preset: Lara, options: {
             darkModeSelector: '.my-app-dark'
         } },  }),
   ]

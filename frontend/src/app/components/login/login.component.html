@@ -1,23 +1,26 @@
 
+<p-toast /> 
 <div class="container">
 
   <div class="login-container">
-      <h1>SIGA BEM</h1>
-      <form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
-          <div class="input-group">
-              <label for="email">E-mail</label>
-              <input type="email" name="email" placeholder="Seu e-mail" ngModel>
-          </div>
-          <div class="input-group">
-              <label for="password">Senha</label>
-              <input type="password" name="password" placeholder="Sua senha" ngModel>
-          </div>
-          <button type="submit">Entrar</button>
-          <div class="footer" style="display: flex; justify-content: center; padding-top: 20px;">
+    <div class="logo">
+        <div class="logo-icon">SB</div>
+    </div>
+    <form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
+        <div class="input-group">
+            <label for="email" style="font-size: 18px;">E-mail</label>
+            <input type="email" name="email" placeholder="Seu e-mail" ngModel>
+        </div>
+        <div class="input-group">
+            <label for="password" style="font-size: 18px;">Senha</label>
+            <input type="password" name="password" placeholder="Sua senha" ngModel>
+        </div>
+        <button type="submit">Entrar</button>
+        <div class="footer" style="display: flex; justify-content: center; padding-top: 20px;">
 
-              <a routerLink="/register" >Cadastre-se</a>
-          </div>
-      </form>
+            <label for="">Não tem conta?</label><a routerLink="/register">Cadastre-se</a>
+        </div>
+    </form>
   </div>
 </div>
 

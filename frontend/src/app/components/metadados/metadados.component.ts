@@ -6,11 +6,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { Router, RouterLink } from '@angular/router';
 import { MetadadoIn } from './equipe';
+import { MenuComponent } from '../menu/menu.component';
 
 
 @Component({
   selector: 'app-metadados',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, MenuComponent],
   templateUrl: './metadados.component.html',
   styleUrl: './metadados.component.css'
 })

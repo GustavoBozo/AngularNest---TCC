@@ -3,39 +3,25 @@
 
 <div class="sidebar">
 
-  <div class="top">
+  <div class="top" >
       <h2>Seções:</h2>
-      <div class="secaoPasta">
+      <div class="secoesLoad" *ngFor="let sec of secoes">
 
+        <div class="secaoPasta" >
           <i class="fa-solid fa-folder"></i>
-          <a href="#">Contas Pagas</a>
+          <a (click)="trocarSec(sec.name)">{{ sec.name }}</a>
+        </div>
       </div>
 
-      <div class="secaoPasta">
+      <div class="secaoPasta1" >
 
-          <i class="fa-solid fa-folder"></i>
-          <a href="#">Projetos</a>
+        <i style="color: white;" class="pi pi-plus-circle"></i>
+        <button style="background: none; color: white; border: none;" (click)="openSecModal()">Novo Secao</button>
       </div>
+      
   </div>
 
-  <div class="footer">
-      <div class="footerSec">
-
-          <i class="fa-solid fa-database"></i>
-          <a routerLink="/metadado"><p>Cadastro de Metadados</p> </a>
-      </div>
-
-      <div class="footerSec">
-          <i class="fa-solid fa-people-group fa-sm"></i>
-          <a routerLink="/equipe">Controle Equipe </a>
-      </div>
-
-      <div class="footerSec">
-
-          <i class="fa-solid fa-trash"></i>
-          <a href="#">Lixeira Unificada </a>
-      </div>
-  </div>
+  
 </div>
 
 
@@ -43,10 +29,17 @@
     
   <div class="metadata-form">
     <div class="newFile">
-        <h3>Contas Pagas > Documentos</h3>
+      
+      <div class="divisao" style="display: flex; flex-direction: row; align-items: center; gap: 1rem;">
+        <h3>Contas Pagas > {{ secaoAtiva }}</h3>
         <div class="addFile" style="background-color: rgb(53, 176, 53); display: flex; flex-direction: row; align-items: center; padding: 8px; gap: 5px; border-radius: 10px;">
-            <i style="color: white;" class="pi pi-plus-circle"></i>
-            <button style="background: none; color: white; border: none;" (click)="openModalDocumento()">Novo Documento</button>
+              <i style="color: white;" class="pi pi-plus-circle"></i>
+              <button style="background: none; color: white; border: none;" (click)="openModalDocumento()">Novo Documento</button>
+        </div>
+      </div>
+        <div class="pesquisa_input">
+          <p-multiselect [options]="metadadosFiltro" [(ngModel)]="selectedFiltro" [filter]="true" optionLabel="description" placeholder="Escolha os Metadados" [maxSelectedLabels]="3" styleClass="w-full md:w-80"   />
+          <i class="pi pi-search" (click)="pesquisar()"></i>
         </div>
     </div>
     <div class="content">
@@ -55,7 +48,7 @@
             <div *ngFor="let docu of documentosFinal">
             <div class="arquivo">
                 <i class="fa-solid fa-file" notepad></i>
-                <span>{{ docu.filename }}</span>
+                <span>     {{ docu.filename }}</span>
             </div>
             
             </div>
@@ -75,17 +68,31 @@
         </div>
 
         <div class="dadosArquivo">
-        <div class="dataArquivo">
-            <span class="titulo" style="font-size: 25px; color: blue;">Dono do Arquivo</span>
+          <div class="dataArquivo">
+            <span class="titulo" style="font-size: 25px; color: blue;">Metadados</span>
             <div *ngFor="let docu of documentosFinal">
-                <div class="arquivo">
-                    <span>{{ docu.donoId }}</span>
-                </div>
-                
+              <div class="testeMeta">
+
+                <div class="metaFile" *ngFor="let meta1 of docu.meta">
+                    <span>{{ meta1 }}</span>
+                </div>                
+              </div>
             </div>
+          </div>
+        </div>
+
+        <div class="dadosArquivo">
+          <div class="dataArquivo">
+            <span class="titulo" style="font-size: 25px; color: blue;">Deletar Documento</span>
+            <div *ngFor="let docu of documentosFinal">
+              <div class="arquivo">
+                <a class="exMeta" (click)="openDelete(docu.id, docu.filename)"><i class="pi pi-trash"></i></a>    
+              </div>                
+            </div>
+          </div>
         </div>
     </div>
-    </div>     
+         
   </div>
 </div>
 
@@ -96,6 +103,7 @@
       <i class="fa-solid fa-xmark" (click)="closeModalDocumento()"></i>
       <h2 style="align-self: center;">Upload de Arquivo</h2>
       <div id="formDocumento" >
+        <input type="hidden" value=""/>
         <div class="form-group" >
             <label for="file">Escolha um arquivo</label>
             <input type="file" (change)="onFileSelected($event)">
@@ -105,6 +113,13 @@
             <label for="meta">Metadados Cadastrados</label>
             <div class="card flex justify-center">
                 <p-multiselect [options]="metadadosTeste" [(ngModel)]="selectedCities" [filter]="true" optionLabel="description" placeholder="Selecione os Metadados" [maxSelectedLabels]="3" styleClass="w-full md:w-80"   />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="meta">Salvar na pasta</label>
+            <div class="card flex justify-center">
+                <p-multiselect [options]="secoes" [(ngModel)]="selectedSecs" [filter]="true" optionLabel="name" placeholder="Selecione a pasta" [maxSelectedLabels]="3" styleClass="w-full md:w-80"   />
             </div>
         </div>
   
@@ -117,4 +132,47 @@
     </div>
   
 </div>
+
+
+<div id="modalCadastroSec" class="modal" #modalSecao>
+  <div class="modal-content">
+    <i class="fa-solid fa-xmark" (click)="closeModalSec()"></i>
+    <h2>Cadastrar Nova Seção</h2>
+    <form id="formDocumento" #registerForm="ngForm" (ngSubmit)="createSec(registerForm.value)">
+      <div class="form-group">
+        <label for="name">Nome da seção</label>
+        <input type="text" name="name" required ngModel>
+      </div>
+
+
+
+      <div class="modal-buttons">
+        <button type="button" class="btn-cancelar" (click)="closeModalSec()">Cancelar</button>
+        <button type="submit" class="btn-salvar">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div id="modalDelete" class="modal" #modalDocumentoDelete>
+  <div class="modal-content">
+    <i class="fa-solid fa-xmark" (click)="closeDelete()" pointer="true"></i>
+    <h2>Deletar Documento</h2>
+    <form id="formDocumento" #deleteForm="ngForm" (ngSubmit)="deleteDocumento()">
+      <div class="form-group" style="display: flex; flex-direction: row;">
+
+        Deseja deleter este documento: <label style="font-weight: bold; padding-left: 5px;"> {{ deleteName }}</label>
+      </div>
+
+
+
+      <div class="modal-buttons">
+        <button type="button" class="btn-cancelar" (click)="closeDelete()">Cancelar</button>
+        <button type="submit" class="btn-salvar1" >Excluir</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 

@@ -8,15 +8,15 @@
       </div>
       <form #registerForm="ngForm" (ngSubmit)="createUser(registerForm.value)">
           <div class="input-group">
-            <label for="name">Nome</label>
+            <label for="name" style="font-size: 18px;">Nome</label>
             <input type="text"  name="name" placeholder="Seu nome"  ngModel>
           </div>
           <div class="input-group">
-              <label for="email">E-mail</label>
+              <label for="email" style="font-size: 18px;">E-mail</label>
               <input type="email"  name="email" placeholder="Seu e-mail"  ngModel>
           </div>
           <div class="input-group">
-              <label for="password">Senha</label>
+              <label for="password" style="font-size: 18px;">Senha</label>
               <input type="password" name="password" placeholder="Sua senha"  ngModel>
           </div>
           <button type="submit">Cadastrar</button>
